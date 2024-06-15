@@ -27,99 +27,135 @@ The Nexus zkVM is a modular, extensible, open-source, and highly-parallelized zk
 
 If you're interested in our implementation of folding schemes, check the [`nexus-nova`](./nova/) crate.
 
-## Quick Start
+## Quick Start (This has been tailored for windows OS)
 
-### 1. Install the Nexus zkVM
+### Install CMake
 
-First, install Rust: https://www.rust-lang.org/tools/install.
+- First, download and install the Cmake Windows x64 Installer from [CMake](https://github.com/Kitware/CMake/releases/download/v3.30.0-rc3/cmake-3.30.0-rc3-windows-x86_64.msi)
 
-With the RISC-V target:
+### Install Build Tools for Visual Studio
 
-```shell
-rustup target add riscv32i-unknown-none-elf
-```
+- Download and install the Microsoft C++ Build Tools Installer from [Visual Studio Installer](https://aka.ms/vs/17/release/vs_BuildTools.exe)
+- Next, run the Visual Studio Installer app.
+- In the list of available workloads on the installer's window, select and install ***Visual Studio Build Tools 2022***`.
+- When the installation's complete, you will see the ***VS Build Tools 2022*** in the *"**Installed**"* section. Click on *"**Modify**"* and select ***Desktop development with C++***. At the bottom of the window, select *"**Download all, then install**"* and click on *"**Close**"*. Wait for that installation to complete. 
 
-Then, install the Nexus zkVM:
+### Install Rust
 
-```shell
-cargo install --git https://github.com/nexus-xyz/nexus-zkvm nexus-tools --tag 'v1.0.0'
-```
+- Download and install Rust from [Rust](https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe)
 
-Verify the installation:
+### Add necessary variables to your PATH
 
-```shell
-cargo nexus --help
-```
+- Open VSCode (or any code editor of your choice) and create a new folder (e.g. nexus-project).
+- Select `nexus-project` as your current directory:
+    ```shell
+        cd nexus-project
+    ```
 
-This should print the available CLI commands.
+- Run the each code line below to set your env variables in PATH (Please **verify** the following paths to `Cmake\bin`, `.cargo\bin`, and `link.exe` on your PC):
+    ```shell
+        $env:Path += ";C:\Program Files\CMake\bin"
 
-### 2. Create a new Nexus project
+        $env:Path += ";C:\Users\iamprecieee\.cargo\bin"
 
-```shell
-cargo nexus new nexus-project
-```
+        $env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.40.33807\bin\Hostx64\x64\link.exe"
+    ```
+    #### **NB: REPLACE *"iamprecieee"* WITH YOUR PC USERNAME. ALSO, REPLACE *"14.40.33807"* WITH YOUR MSVC VERSION.**
 
-This will create a new Rust project directory with the following structure:
+- Verify Rust installation using:
 
-```shell
-./nexus-project
-├── Cargo.lock
-├── Cargo.toml
-└── src
-    └── main.rs
-```
+    ```shell
+    rustc --version
+    ```
 
-As an example, you can change the content of `./src/main.rs` to:
+### Install the Nexus zkVM
 
-```rust
-#![no_std]
-#![no_main]
+- With the RISC-V target:
 
-fn fib(n: u32) -> u32 {
-    match n {
-        0 => 0,
-        1 => 1,
-        _ => fib(n - 1) + fib(n - 2),
+    ```shell
+    rustup target add riscv32i-unknown-none-elf
+    ```
+
+- Then, install the Nexus zkVM:
+
+    ```shell
+    cargo install --git https://github.com/nexus-xyz/nexus-zkvm nexus-tools --tag 'v1.0.0'
+    ```
+
+- Verify the installation:
+
+    ```shell
+    cargo nexus --help
+    ```
+
+- This should print the available CLI commands.
+
+### Create a new Nexus project
+
+    ```shell
+    cargo nexus new nexus-project
+    ```
+
+- Navigate to project directory:
+
+    ```shell
+    cd nexus-project
+    cd src
+    ```
+
+### Edit the Main File
+
+- As an example, you can change the content of `./src/main.rs` to:
+
+    ```rust
+    #![no_std]
+    #![no_main]
+
+    fn fib(n: u32) -> u32 {
+        match n {
+            0 => 0,
+            1 => 1,
+            _ => fib(n - 1) + fib(n - 2),
+        }
     }
-}
 
-#[nexus_rt::main]
-fn main() {
-    let n = 7;
-    let result = fib(n);
-    assert_eq!(result, 13);
-}
-```
+    #[nexus_rt::main]
+    fn main() {
+        let n = 7;
+        let result = fib(n);
+        assert_eq!(result, 13);
+    }
+    ```
 
-### 3. Run your program
+### Run your program
 
-```bash
-cargo nexus run
-```
+    ```bash
+    cargo nexus run
+    ```
 
-This command should run successfully. To print the full step-by-step execution trace on the NVM, run:
+- This command should run successfully. To print the full step-by-step execution trace on the NVM, run:
 
-```bash
-cargo nexus run -v
-```
+    ```bash
+    cargo nexus run -v
+    ```
 
-### 4. Prove your program
+### Prove your program
 
-Generate a proof for your Rust program using the Nexus zkVM.
+- Generate a proof for your Rust program using the Nexus zkVM.
 
-```shell
-cargo nexus prove
-```
+    ```shell
+    cargo nexus prove
+    ```
 
-This command will save the proof to `./nexus-proof`.
+- This command will save the proof to `./nexus-proof`.
 
-### 5. Verify your proof
+### Verify your proof
 
-Finally, load and verify the proof:
+- Finally, load and verify the proof:
 
-```shell
-cargo nexus verify
-```
+    ```shell
+    cargo nexus verify
+    ```
 
 ## Learn More
 
