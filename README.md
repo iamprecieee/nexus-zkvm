@@ -52,7 +52,7 @@ If you're interested in our implementation of folding schemes, check the [`nexus
         cd nexus-project
     ```
 
-- Run the each code line below to set your env variables in PATH (Please **verify** the following paths to `Cmake\bin`, `.cargo\bin`, and `link.exe` on your PC):
+- Run each code line below to set your env variables in PATH (Please **verify** the following paths to `Cmake\bin`, `.cargo\bin`, and `link.exe` on your PC):
     ```shell
         $env:Path += ";C:\Program Files\CMake\bin"
 
