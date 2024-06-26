@@ -92,9 +92,9 @@ If you're interested in our implementation of folding schemes, check the [`nexus
 
 ### Create a new Nexus project
 
-    ```
+    
     cargo nexus new nexus-project
-    ```
+    
 
 - Navigate to project directory:
 
